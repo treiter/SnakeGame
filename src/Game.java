@@ -9,6 +9,14 @@ import java.awt.image.BufferStrategy;
 import java.awt.Canvas;
 import javax.swing.JFrame;
 
+/**
+ * // -------------------------------------------------------------------------
+/**
+ *  Snake.
+ *
+ *  @author L2T5
+ *  @version 04.07.2014
+ */
 public class Game
     extends Canvas implements Runnable
 {
