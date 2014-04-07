@@ -24,6 +24,9 @@ public class Game
                                                         // double buffering
     private boolean          isRunning       = true;
 
+    private int framesBetweenFood = 6;
+    private int frameCount = framesBetweenFood;
+
     //1 = up, 2 = right, 3 = down, 4 = left
     private int              lastKeyPressed  = 1;     // start out moving up
 
@@ -122,6 +125,11 @@ public class Game
 
     private void updateLogic()
     {
+
+        if(frameCount <= 0) {
+            spawnFood();
+            frameCount = framesBetweenFood;
+        }
         // TODO: snake logic, collisions, victory/loss conditions
     }
 
@@ -154,10 +162,21 @@ public class Game
                 }
             }
 
+            frameCount--;
             updateLogic();
             doDraw();
 
         }
+    }
+
+    private void spawnFood() {
+        int i = (int)(Math.random()*logicMatrix.length);
+        int j = (int)(Math.random()*logicMatrix[i].length);
+        while(logicMatrix[i][j] != 0) {
+            i = (int)(Math.random()*logicMatrix.length);
+            j = (int)(Math.random()*logicMatrix[i].length);
+        }
+        logicMatrix[i][j] = 1;
     }
 
 
