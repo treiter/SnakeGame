@@ -68,7 +68,7 @@ public class Game
      * Starts a new game. Should clear any existing data, and reset from
      * nothing.
      */
-    private void startGame()
+    private void restartGame()
     {
         // TODO: clear any existing data (snake-list, position, spawned blocks)
         lastKeyPressed = 1;
