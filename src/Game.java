@@ -101,7 +101,18 @@ public class Game
             graphics.drawLine(0, y, WINDOWX, y);
         }
 
-        // TODO: draw snake, food
+        for(int i = 0; i < logicMatrix.length; i++) {
+            for(int j = 0; j < logicMatrix[i].length; j++) {
+                if(logicMatrix[i][j] == 1) {
+                    graphics.setColor(Color.BLUE);
+                    graphics.fillOval(i*squareSize, j*squareSize, squareSize, squareSize);
+                }
+                else if(logicMatrix[i][j] == 2) {
+                    graphics.setColor(Color.GREEN);
+                    graphics.fillOval(i*squareSize, j*squareSize, squareSize, squareSize);
+                }
+            }
+        }
 
         // flip the buffer
         graphics.dispose();
