@@ -24,7 +24,7 @@ public class Game
                                                         // double buffering
     private boolean          isRunning       = true;
 
-    private int framesBetweenFood = 6;
+    private int framesBetweenFood = 30;
     private int frameCount = framesBetweenFood;
 
     //1 = up, 2 = right, 3 = down, 4 = left
@@ -36,6 +36,9 @@ public class Game
                                                  new int[WINDOWX / squareSize][WINDOWY
                                                      / squareSize];
     // notes about matrix, 0 = nothing. 1 = food, 2 = snake part
+
+
+    private Snake snake;//the snake
 
     /**
      * Set up the canvas, panel, and the frame.
@@ -71,6 +74,8 @@ public class Game
         // create double buffer strategy
         this.createBufferStrategy(2);
         strategy = this.getBufferStrategy();
+
+        snake = new Snake(logicMatrix);
     }
 
 
@@ -82,6 +87,8 @@ public class Game
     {
         // TODO: clear any existing data (snake-list, position, spawned blocks)
         lastKeyPressed = 1;
+        logicMatrix = new int[WINDOWX/squareSize][WINDOWY/squareSize];
+        snake = new Snake(logicMatrix);
     }
 
 
@@ -90,7 +97,7 @@ public class Game
         Graphics2D graphics = (Graphics2D)strategy.getDrawGraphics();
 
         // blank out canvas
-        graphics.setColor(Color.LIGHT_GRAY);
+        graphics.setColor(Color.WHITE);
         graphics.fillRect(0, 0, WINDOWX, WINDOWY);
 
         // draw grid
@@ -111,7 +118,7 @@ public class Game
                     graphics.fillOval(i*squareSize, j*squareSize, squareSize, squareSize);
                 }
                 else if(logicMatrix[i][j] == 2) {
-                    graphics.setColor(Color.GREEN);
+                    graphics.setColor(Color.GREEN.darker());
                     graphics.fillOval(i*squareSize, j*squareSize, squareSize, squareSize);
                 }
             }
@@ -130,6 +137,7 @@ public class Game
             spawnFood();
             frameCount = framesBetweenFood;
         }
+        snake.move(lastKeyPressed);
         // TODO: snake logic, collisions, victory/loss conditions
     }
 
@@ -139,15 +147,13 @@ public class Game
     public void run()
     {
         long lastLoopTime = System.currentTimeMillis();
-        long desiredTime = 500;// move every half second to start.
+        long desiredTime = 100;// move every half second to start.
         long deltaTime = 0;
         int sleepTime = 0;
         while (isRunning)
         {
             // time that last loop took
             deltaTime = System.currentTimeMillis() - lastLoopTime;
-            lastLoopTime = System.currentTimeMillis();
-
             // only move once every desiredTime amount of milliseconds
             sleepTime = (int)(desiredTime - deltaTime);
             if (sleepTime > 0)
@@ -165,6 +171,8 @@ public class Game
             frameCount--;
             updateLogic();
             doDraw();
+            //System.out.println(frameCount);
+            lastLoopTime = System.currentTimeMillis();
 
         }
     }
