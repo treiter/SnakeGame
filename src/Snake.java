@@ -13,7 +13,7 @@ public class Snake
         backgroundMatrix[x][y] = 2;
         snakeList.addFirst(new Location(x, y));
     }
-    public void move(int direction) {
+    public int move(int direction) {
         Location head = snakeList.getFirst();
         Location newHead = new Location(head.getX(), head.getY());
         switch(direction) {
@@ -32,6 +32,7 @@ public class Snake
             default:
                 break;
         }
+        int returnStatus = 0;
         if(newHead.getX() >= backgroundMatrix.length || newHead.getX() < 0)
             System.exit(1);
         if(newHead.getY() >= backgroundMatrix[0].length || newHead.getY() < 0)
@@ -44,9 +45,10 @@ public class Snake
         }
         else {
             System.out.println(snakeList.size() + 1);
+            returnStatus = 1;
         }
         snakeList.addFirst(newHead);
         backgroundMatrix[newHead.getX()][newHead.getY()] = 2;
-
+        return returnStatus;
     }
 }

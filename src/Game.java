@@ -133,11 +133,13 @@ public class Game
     private void updateLogic()
     {
 
-        if(frameCount <= 0) {
+        /*if(frameCount <= 0) {
             spawnFood();
             frameCount = framesBetweenFood;
+        }*/
+        if(snake.move(lastKeyPressed) == 1) {
+            spawnFood();
         }
-        snake.move(lastKeyPressed);
         // TODO: snake logic, collisions, victory/loss conditions
     }
 
@@ -150,6 +152,7 @@ public class Game
         long desiredTime = 100;// move every half second to start.
         long deltaTime = 0;
         int sleepTime = 0;
+        boolean firstTime = true;
         while (isRunning)
         {
             // time that last loop took
@@ -167,8 +170,12 @@ public class Game
                     // this probably should never fail...
                 }
             }
+            if(firstTime) {
+                spawnFood();
+                firstTime = false;
+            }
 
-            frameCount--;
+            //frameCount--;
             updateLogic();
             doDraw();
             //System.out.println(frameCount);
