@@ -161,7 +161,7 @@ public class Game
     public void run()
     {
         long lastLoopTime = System.currentTimeMillis();
-        long desiredTime = gameMode == 1?100:50;
+        long desiredTime = gameMode == 1?100:30;
         long deltaTime = 0;
         int sleepTime = 0;
         boolean firstTime = true;
