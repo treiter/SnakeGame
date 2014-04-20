@@ -40,6 +40,8 @@ public class Game
 
     private Snake snake;//the snake
 
+    private int gameMode = 2;//1 is normal, 2 is extreme.
+
     /**
      * Set up the canvas, panel, and the frame.
      */
@@ -98,19 +100,26 @@ public class Game
 
         // blank out canvas
         graphics.setColor(Color.WHITE);
+        if(gameMode == 2) {
+            int r = (int)(Math.random()*256);
+            int g = (int)(Math.random()*256);
+            int b = (int)(Math.random()*256);
+            graphics.setColor(new Color(r,g,b));
+        }
         graphics.fillRect(0, 0, WINDOWX, WINDOWY);
 
         // draw grid
-        graphics.setColor(Color.BLACK);
-        for (int x = 0; x < WINDOWX; x += squareSize)
-        {
-            graphics.drawLine(x, 0, x, WINDOWY);
+        if(gameMode == 1) {
+            graphics.setColor(Color.BLACK);
+            for (int x = 0; x < WINDOWX; x += squareSize)
+            {
+                graphics.drawLine(x, 0, x, WINDOWY);
+            }
+            for (int y = 0; y < WINDOWY; y += squareSize)
+            {
+                graphics.drawLine(0, y, WINDOWX, y);
+            }
         }
-        for (int y = 0; y < WINDOWY; y += squareSize)
-        {
-            graphics.drawLine(0, y, WINDOWX, y);
-        }
-
         for(int i = 0; i < logicMatrix.length; i++) {
             for(int j = 0; j < logicMatrix[i].length; j++) {
                 if(logicMatrix[i][j] == 1) {
@@ -130,16 +139,19 @@ public class Game
     }
 
 
-    private void updateLogic()
+    private int updateLogic()
     {
 
         /*if(frameCount <= 0) {
             spawnFood();
             frameCount = framesBetweenFood;
         }*/
-        if(snake.move(lastKeyPressed) == 1) {
+        int status = snake.move(lastKeyPressed);
+        if(status == 1) {
             spawnFood();
+            return 1;
         }
+        return status;
         // TODO: snake logic, collisions, victory/loss conditions
     }
 
@@ -149,7 +161,7 @@ public class Game
     public void run()
     {
         long lastLoopTime = System.currentTimeMillis();
-        long desiredTime = 100;// move every half second to start.
+        long desiredTime = gameMode == 1?100:50;
         long deltaTime = 0;
         int sleepTime = 0;
         boolean firstTime = true;
@@ -176,7 +188,9 @@ public class Game
             }
 
             //frameCount--;
-            updateLogic();
+            if(updateLogic() == 1 && gameMode == 1) {
+                desiredTime -= 1;
+            }
             doDraw();
             //System.out.println(frameCount);
             lastLoopTime = System.currentTimeMillis();
