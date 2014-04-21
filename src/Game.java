@@ -161,6 +161,7 @@ public class Game
     public void run()
     {
         long lastLoopTime = System.currentTimeMillis();
+        //desired time between moves depends on game mode
         long desiredTime = gameMode == 1?100:30;
         long deltaTime = 0;
         int sleepTime = 0;
@@ -187,8 +188,8 @@ public class Game
                 firstTime = false;
             }
 
-            //frameCount--;
-            if(updateLogic() == 1 && gameMode == 1) {
+            //speed up when eating
+            if(updateLogic() == 1 && gameMode == 1 && desiredTime > 40) {
                 desiredTime -= 1;
             }
             doDraw();
