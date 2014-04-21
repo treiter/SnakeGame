@@ -22,7 +22,7 @@ public class Snake
      * in both.
      *
      * @param backgroundMatrix
-     *            a integer matrix containing the locations of everything. 0 is
+     *            an integer matrix containing the locations of everything. 0 is
      *            blank, 1 is food, 2 is a snake part
      */
     public Snake(int[][] backgroundMatrix)
@@ -31,6 +31,22 @@ public class Snake
                                                   // copy
         int x = backgroundMatrix.length / 2;
         int y = backgroundMatrix[x].length / 2;
+        backgroundMatrix[x][y] = 2;
+        snakeList.addFirst(new Location(x, y));
+    }
+
+
+    /**
+     * Creates a snake at location x, y.
+     *
+     * @param backgroundMatrix
+     *            an integer matrix containing the locations of everything. 0 is
+     *            blank, 1 is food, 2 is a snake part
+     */
+    public Snake(int[][] backgroundMatrix, int x, int y)
+    {
+        this.backgroundMatrix = backgroundMatrix;
+
         backgroundMatrix[x][y] = 2;
         snakeList.addFirst(new Location(x, y));
     }
