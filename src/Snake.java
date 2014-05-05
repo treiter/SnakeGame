@@ -87,11 +87,11 @@ public class Snake
         int returnStatus = 0;
         // check to see if it died
         if (newHead.getX() >= backgroundMatrix.length || newHead.getX() < 0)
-            System.exit(1);
+            return 5;
         if (newHead.getY() >= backgroundMatrix[0].length || newHead.getY() < 0)
-            System.exit(1);
+            return 5;
         if (backgroundMatrix[newHead.getX()][newHead.getY()] == 2)
-            System.exit(1);
+            return 5;
 
         // if it didn't eat food, remove the tail
         if (backgroundMatrix[newHead.getX()][newHead.getY()] == 0)
