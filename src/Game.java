@@ -54,7 +54,7 @@ public class Game
     // set up the underlying matrix
     int                    squareSize        = 20;
     int[][]                logicMatrix       =
-                                                 new int[WINDOWX / squareSize][WINDOWY
+                                                 new int[WINDOWX / squareSize][(WINDOWY-20)
                                                      / squareSize];
     // notes about matrix, 0 = nothing. 1 = food, 2 = snake part
 
@@ -67,6 +67,8 @@ public class Game
 // normal, 2 is extreme, 3 is 2-player.
 
     private JFrame         frame;
+
+    long desiredTime;
 
 
     /**
@@ -139,7 +141,8 @@ public class Game
     {
         // TODO: clear any existing data (snake-list, position, spawned blocks)
         lastKeyPressed = 1;
-        logicMatrix = new int[WINDOWX / squareSize][WINDOWY / squareSize];
+        desiredTime = gameMode == 1 || gameMode == 3 ? 200 : 30;
+        logicMatrix = new int[WINDOWX / squareSize][(WINDOWY-20) / squareSize];
         if (gameMode == 1 || gameMode == 2)
         {
             snake = new Snake(logicMatrix);
@@ -277,7 +280,7 @@ public class Game
     {
         long lastLoopTime = System.currentTimeMillis();
         // desired time between moves depends on game mode
-        long desiredTime = gameMode == 1 || gameMode == 3 ? 200 : 30;
+        desiredTime = gameMode == 1 || gameMode == 3 ? 200 : 30;
         long deltaTime = 0;
         int sleepTime = 0;
         this.requestFocus();
@@ -412,6 +415,7 @@ public class Game
         SoundEffect.init();//set up our sounds
         Game game = new Game();
         new Thread(game).start();
+        SoundEffect.MUSIC.loop();
     }
 
 
