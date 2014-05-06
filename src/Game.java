@@ -234,10 +234,12 @@ public class Game
         if (status == 1)
         {
             spawnFood();
+            SoundEffect.EAT.play();
             return 1;
         }
         else if (status == 5)
         {
+            SoundEffect.CRASH.play();
             isRunning = false;
             Object[] options = { "Play Again", "Okay", "Quit" };
             int n =
@@ -279,11 +281,12 @@ public class Game
         long deltaTime = 0;
         int sleepTime = 0;
         this.requestFocus();
+        System.out.println("Desired time: "+desiredTime);
         while (true)
         {
             if (isRunning)
             {
-                desiredTime = gameMode == 1 || gameMode == 3 ? 200 : 30;
+                //desiredTime = gameMode == 1 || gameMode == 3 ? 200 : 30;
                 // time that last loop took
                 deltaTime = System.currentTimeMillis() - lastLoopTime;
                 // only move once every desiredTime amount of milliseconds
@@ -297,6 +300,7 @@ public class Game
                     catch (Exception e)
                     {
                         // this probably should never fail...
+                        System.out.println("WTF");
                     }
                 }
 
@@ -405,6 +409,7 @@ public class Game
      */
     public static void main(String[] args)
     {
+        SoundEffect.init();//set up our sounds
         Game game = new Game();
         new Thread(game).start();
     }
@@ -432,6 +437,8 @@ public class Game
                 public void actionPerformed(ActionEvent e)
                 {
                     restartGame();
+                    game.requestFocus();
+                    new Thread(game).start();
                 }
             });
             j.add(i);
